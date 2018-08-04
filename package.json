@@ -4,7 +4,7 @@
   "description": "A Hello World HTTP server",
   "main": "main.js",
   "scripts": {
-    "test": "jenkins-mocha --cobertura test.js",
+    "test": "jenkins-mocha --cobertura test/*",
     "start": "node main.js"
   },
   "repository": {
@@ -18,5 +18,4 @@
   ],
   "author": "autoopsltd@outlook.com",
   "license": "ISC",
-  "devDependencies": { "test": ">=0.6.0" }
 }
