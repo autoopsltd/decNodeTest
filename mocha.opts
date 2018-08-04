@@ -1,5 +1,2 @@
-—-require js-node/register
-—-reporter mocha-jenkins-reporter
-—-watch-extensions js
-—-colors
+--option value
 tests/*.js
