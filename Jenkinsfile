@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Initial NPM build') {
+        stage('Run NodeJS build') {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
@@ -26,6 +26,7 @@ pipeline {
                 dockerfile {
                     filename 'Dockerfile'
                     reuseNode true
+                    additionalBuildArgs '--tag autoopsltd/decnodetest:testing'
                 }
             }
             steps {
@@ -42,5 +43,22 @@ pipeline {
                 }
             }
         }
+        stage('Docker Tag & Push') {
+            steps {
+                withDockerRegistry([ credentialsId: "dockerhub", url: ""]) {
+                    sh 'docker tag autoopsltd/decnodetest:testing autoopsltd/decnodetest:latest'
+                    sh 'docker push autoopsltd/decnodetest:latest'
+                }
+            }
+        }
     }
 }
+
+
+
+
+
+
+
+
+
