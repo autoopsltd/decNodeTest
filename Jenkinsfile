@@ -37,6 +37,7 @@ pipeline {
                     echo 'Mocha testing worked!'
                     archiveArtifacts artifacts: 'app/*.js'
                     junit '**/artifacts/**/*.xml'
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
                 }
                 failure {
                   echo 'Mocha testing failed..'
