@@ -5,6 +5,12 @@ pipeline {
     }
     stages {
         stage('Initial NPM build') {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    reuseNode true
+                }
+            }
             steps {
                 sh 'npm install'
                 sh 'npm install --save-dev jenkins-mocha expect'
