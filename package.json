@@ -4,7 +4,8 @@
   "description": "A Hello World HTTP server",
   "main": "main.js",
   "scripts": {
-    "test_jenkins": "jenkins-mocha --cobertura test/*.js --opts mocha.opts",
+    "test": "node_modules/mocha/bin/mocha test.js",
+    "test_jenkins": "jenkins-mocha --cobertura test.js",
     "start": "node main.js"
   },
   "repository": {
@@ -17,5 +18,7 @@
     "dockerfile"
   ],
   "author": "autoopsltd@outlook.com",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+  }
 }
