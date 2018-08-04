@@ -10,7 +10,7 @@ pipeline {
             }
             steps {
                 sh 'npm install'
-                sh 'npm install --save-dev jenkins-mocha expect nyc'
+                sh 'npm install --save-dev jenkins-mocha nyc'
             }
             post {
                 success {
