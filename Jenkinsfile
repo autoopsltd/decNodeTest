@@ -21,19 +21,19 @@ pipeline {
                 }
             }
         }
-        //stage('Run Mocha Test') {
-          //  steps {
-            //    sh 'npm run test_jenkins'
-            //}
-            //post {
-              //  success {
-               //     echo 'Mocha testing worked!'
-                 //   archiveArtifacts artifacts: '**/artifacts/**/*.xml'
-                //}
-                //failure {
-                 //   echo 'Mocha testing failed..'
-              //}
-         //   }
-        //}
+        stage('Run Mocha Test') {
+            steps {
+                sh 'npm run test_jenkins'
+            }
+            post {
+                success {
+                    echo 'Mocha testing worked!'
+                    archiveArtifacts artifacts: '**/artifacts/**/*.xml'
+                }
+                failure {
+                  echo 'Mocha testing failed..'
+                }
+            }
+        }
     }
 }
