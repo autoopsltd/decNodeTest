@@ -25,7 +25,7 @@ pipeline {
             post {
                 success {
                     echo 'Mocha testing worked!'
-                    xunit '*/artifacts/*/*.xml'
+                    archiveArtifacts artifacts: '**/artifacts/**/*.xml'
                 }
                 failure {
                     echo 'Mocha testing failed..'
