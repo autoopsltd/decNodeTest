@@ -6,7 +6,8 @@ pipeline {
     stages {
         stage('Initial NPM build') {
             steps {
-                sh 'npm install mocha expect'
+                sh 'npm install'
+                sh 'npm install --save-dev jenkins-mocha expect'
             }
             post {
                 success {
@@ -19,7 +20,8 @@ pipeline {
         }
         stage('Run Mocha Test') {
             steps {
-                sh 'node_modules/mocha/bin/mocha test.js --exit'
+                sh 'jenkins-mocha --cobertura test.js'
+                // node_modules/jenkins-mocha/bin/jenkins.js
             }
             post {
                 success {
