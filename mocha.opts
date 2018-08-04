@@ -1,0 +1,5 @@
+ —-require js-node/register
+ —-reporter mocha-jenkins-reporter
+ —-watch-extensions js
+ —-colors
+tests/*.js

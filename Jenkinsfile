@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Run Mocha Test') {
             steps {
-                sh 'npm test'
+                sh 'npm run test_jenkins'
             }
             post {
                 success {

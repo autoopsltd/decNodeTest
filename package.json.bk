@@ -4,7 +4,7 @@
   "description": "A Hello World HTTP server",
   "main": "main.js",
   "scripts": {
-    "test_jenkins": "jenkins-mocha --cobertura test/*.js --opts mocha.opts",
+    "test": "jenkins-mocha --cobertura test/*",
     "start": "node main.js"
   },
   "repository": {
