@@ -10,7 +10,7 @@ pipeline {
             }
             steps {
                 sh 'npm install'
-                sh 'npm install --save-dev jenkins-mocha expect'
+                sh 'npm install --save-dev jenkins-mocha expect coberturaJS'
             }
             post {
                 success {
