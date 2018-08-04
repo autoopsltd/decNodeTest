@@ -20,8 +20,7 @@ pipeline {
         }
         stage('Run Mocha Test') {
             steps {
-                sh 'jenkins-mocha --cobertura test.js'
-                // node_modules/jenkins-mocha/bin/jenkins.js
+                sh 'npm test'
             }
             post {
                 success {
