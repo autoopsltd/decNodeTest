@@ -22,6 +22,12 @@ pipeline {
             }
         }
         stage('Run Mocha Test') {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    reuseNode true
+                }
+            }
             steps {
                 sh 'npm run test_jenkins'
             }
