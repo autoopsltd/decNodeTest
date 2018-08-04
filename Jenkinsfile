@@ -34,7 +34,8 @@ pipeline {
             post {
                 success {
                     echo 'Mocha testing worked!'
-                    archiveArtifacts artifacts: '**/artifacts/**/*.xml'
+                    //archiveArtifacts artifacts: '**/artifacts/**/*.xml'
+                    junit '**/artifacts/**/*.xml'
                 }
                 failure {
                   echo 'Mocha testing failed..'
