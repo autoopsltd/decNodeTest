@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Run Mocha Test') {
             steps {
-                sh 'mocha test.js --exit'
+                sh 'node_modules/mocha/bin/mocha test.js --exit'
             }
             post {
                 success {
