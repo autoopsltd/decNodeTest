@@ -4,7 +4,7 @@ pipeline {
         nodejs 'nodejs'
     }
     stages {
-        stage('Initial NPM install') {
+        stage('Initial NPM build') {
             steps {
                 sh 'npm install mocha expect'
             }
@@ -14,6 +14,19 @@ pipeline {
                 }
                 failure {
                     echo 'Npm install failed..'
+                }
+            }
+        }
+        stage('Run Mocha Test') {
+            steps {
+                sh 'mocha test.js --exit'
+            }
+            post {
+                success {
+                    echo 'Mocha testing worked!'
+                }
+                failure {
+                    echo 'Mocha testing failed..'
                 }
             }
         }
