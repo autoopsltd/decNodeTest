@@ -4,9 +4,9 @@ pipeline {
         nodejs 'nodejs'
     }
     stages {
-        stage('npm install') {
+        stage('Initial NPM install') {
             steps {
-                sh 'npm install'
+                sh 'npm install mocha expect'
             }
             post {
                 success {
