@@ -65,11 +65,29 @@ pipeline {
             post {
                 success {
                     echo 'Sonar Quality Gate passed!'
-                    //junit '**/artifacts/**/*.xml'
-                    //publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
                 }
                 failure {
                   echo 'Sonar Quality Gate failed..'
+                }
+            }
+        }
+        stage('Upload to Nexus') {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    reuseNode true
+                    additionalBuildArgs '--tag autoopsltd/decnodetest:testing'
+                }
+            }
+            steps {
+                sh 'npm publish --registry http://192.168.1.15:8082/repository/npm-internal/'
+            }
+            post {
+                success {
+                    echo 'Nexus Upload worked!'
+                }
+                failure {
+                  echo 'Nexus Upload failed..'
                 }
             }
         }
