@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Run NodeJS build') {
+        stage('NodeJS build') {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
@@ -21,7 +21,7 @@ pipeline {
                 }
             }
         }
-        stage('Run Mocha Test') {
+        stage('Mocha/Istanbul') {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
@@ -44,11 +44,11 @@ pipeline {
                 }
             }
         }
-        stage('Docker Tag & Push') {
+        stage('Docker Tag/Push') {
             steps {
-                withDockerRegistry([ credentialsId: "dockerhub", url: ""]) {
-                    sh 'docker tag autoopsltd/decnodetest:testing autoopsltd/decnodetest:latest'
-                    sh 'docker push autoopsltd/decnodetest:latest'
+                withDockerRegistry([ credentialsId: "dockerhub", url: "http://localhost:5000"]) {
+                    sh 'docker tag autoopsltd/decnodetest:testing localhost:5000/decnodetest:latest'
+                    sh 'docker push localhost:5000/decnodetest:latest'
                 }
             }
         }
