@@ -103,19 +103,21 @@ pipeline {
                 }
             }
             steps {
-                def server = Artifactory.server 'artifactory'
-                def uploadSpec = """{
-                    "files": [
-                        {
-                            "pattern": "./app/*.js",
-                            "target": "generic-local/decNodeTest/",
-                            "recursive": "false"
-                        }
-                    ]
-                }"""
-                server.upload(uploadSpec)
-                def buildInfo1 = server.upload uploadSpec
-                server.publishBuildInfo buildInfo1
+                script {
+                    def server = Artifactory.server 'artifactory'
+                    def uploadSpec = """{
+                        "files": [
+                            {
+                                "pattern": "./app/*.js",
+                                "target": "generic-local/decNodeTest/",
+                                "recursive": "false"
+                            }
+                        ]
+                    }"""
+                    server.upload(uploadSpec)
+                    def buildInfo1 = server.upload uploadSpec
+                    server.publishBuildInfo buildInfo1
+                }
             }
             post {
                 success {
