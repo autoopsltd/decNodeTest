@@ -79,6 +79,9 @@ pipeline {
                     additionalBuildArgs '--tag autoopsltd/decnodetest:testing'
                 }
             }
+            when {
+                branch 'master'
+            }
             steps {
                 sh 'npm --version'
                 sh './setup_nexus_repo.sh'
