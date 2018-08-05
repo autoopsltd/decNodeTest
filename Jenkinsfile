@@ -7,7 +7,7 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10'))
     }
     environment {
-        sonarqubeScannerHome = tool name: 'sonarqube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+        sonarScannerHome = tool: 'sonarScanner'
     }
     stages {
         stage('NodeJS Build') {
@@ -65,7 +65,7 @@ pipeline {
                 withSonarQubeEnv('sonarqube') {
                     //sonarqubeScannerHome = tool name: 'sonarqube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
                     withCredentials([string(credentialsId: 'sonar', variable: 'sonarLogin')]) {
-                         sh "${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://192.168.1.15:9001 -Dsonar.login=${sonarLogin} -Dsonar.projectName=decNodeTest -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=NA -Dsonar.sources=. -Dsonar.language=js"
+                         sh "${sonarScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://192.168.1.15:9001 -Dsonar.login=${sonarLogin} -Dsonar.projectName=decNodeTest -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=NA -Dsonar.sources=. -Dsonar.language=js"
                     }
                 }
             }
