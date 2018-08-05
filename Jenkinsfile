@@ -76,7 +76,7 @@ pipeline {
                 branch 'master'
             }
             parallel {
-                stage('Upload artefact to Nexus') {
+                stage('Upload to Nexus') {
                     agent {
                         dockerfile {
                             filename 'Dockerfile'
@@ -91,7 +91,7 @@ pipeline {
                         sh 'rm -f .npmrc'
                     }
                 }
-                stage('Upload artefact to Nexus') {
+                stage('Upload to Artifactory') {
                     agent {
                         dockerfile {
                             filename 'Dockerfile'
