@@ -50,6 +50,33 @@ pipeline {
                 }
             }
         }
+        stage('Sonar Analyze/Quality Gate') {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    reuseNode true
+                    additionalBuildArgs '--tag autoopsltd/decnodetest:testing'
+                }
+            }
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                            def sonarqubeScannerHome = tool name: 'sonarqube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+                            withCredentials([string(credentialsId: 'sonar', variable: 'sonarLogin')]) {
+                             sh "${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://192.168.1.15:9001 -Dsonar.login=${sonarLogin} -Dsonar.projectName=decNodeTest -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=NA -Dsonar.sources=. -Dsonar.language=js"
+                            }
+                }
+            }
+            post {
+                success {
+                    echo 'Sonar Quality Gate passed!'
+                    //junit '**/artifacts/**/*.xml'
+                    //publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
+                }
+                failure {
+                  echo 'Sonar Quality Gate failed..'
+                }
+            }
+        }
         stage('Docker Tag/Push') {
             steps {
                 withDockerRegistry([ credentialsId: "dockerhub", url: "http://localhost:5000"]) {
