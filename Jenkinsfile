@@ -72,13 +72,6 @@ pipeline {
             }
         }
         stage('Upload to Nexus') {
-            agent {
-                dockerfile {
-                    filename 'Dockerfile'
-                    reuseNode true
-                    additionalBuildArgs '--tag autoopsltd/decnodetest:testing'
-                }
-            }
             steps {
                 sh 'echo "registry=http://192.168.1.15:8082/repository/npm-internal/" > .npmrc'
                 sh 'echo "_auth=YWRtaW46YWRtaW4xMjM="' > .npmrc'
