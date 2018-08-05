@@ -132,7 +132,7 @@ pipeline {
             agent any
             steps {
                     // ansible -m shell -a "ls /root" localhost
-                    sh '/usr/bin/ansible-playbook -i /root/ansible/inventory ./playbook.yml --extra-vars "${WORKSPACE}"'
+                    sh '/usr/bin/ansible-playbook -i /root/ansible/inventory ./playbook.yml --extra-vars ""${WORKSPACE}""'
                     sh 'ls -l ${WORKSPACE}'
             }
         }
