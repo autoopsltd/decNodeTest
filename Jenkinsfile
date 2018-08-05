@@ -128,6 +128,7 @@ pipeline {
             }
         }
         stage('Ansible Task') {
+            agent any
             steps {
                     sh 'ansible-playbook -i /root/ansible/inventory ./playbook.yml'
             }
