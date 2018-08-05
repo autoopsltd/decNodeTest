@@ -64,7 +64,7 @@ pipeline {
             post {
                 success {
                     echo 'Mocha testing worked!'
-                    archiveArtifacts artifacts: 'app/*.js'
+                    archiveArtifacts artifacts: 'dist/*.js'
                     junit '**/artifacts/**/*.xml'
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
                 }
@@ -125,7 +125,7 @@ pipeline {
                             def uploadSpec = """{
                                 "files": [
                                     {
-                                        "pattern": "./app/*.js",
+                                        "pattern": "./dist/*.js",
                                         "target": "generic-local/decNodeTest/",
                                         "recursive": "false"
                                     }

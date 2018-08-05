@@ -2,11 +2,11 @@
   "name": "hellonode",
   "version": "1.0.0",
   "description": "A Hello World HTTP server",
-  "main": "app/app.js",
+  "main": "dist/app.js",
   "scripts": {
     "test": "nyc --reporter=html node_modules/mocha/bin/mocha test/test.js --exit",
     "test_jenkins": "nyc --reporter=html jenkins-mocha --no-coverage test/test.js --exit",
-    "start": "node app/app.js"
+    "start": "node dist/app.js"
   },
   "repository": {
     "type": "git",
