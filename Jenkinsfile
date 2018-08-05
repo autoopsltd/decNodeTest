@@ -82,16 +82,47 @@ pipeline {
             steps {
                 sh 'npm --version'
                 sh './setup_nexus_repo.sh'
-                sh 'npm --version'
                 sh 'npm publish --registry http://192.168.1.15:8082/repository/npm-internal/'
                 sh 'rm -f .npmrc'
             }
             post {
                 success {
-                    echo 'Nexus Upload worked!'
+                    echo 'Nexus upload worked!'
                 }
                 failure {
-                  echo 'Nexus Upload failed..'
+                  echo 'Nexus upload failed..'
+                }
+            }
+        }
+        stage('Upload to Artifactory') {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    reuseNode true
+                    additionalBuildArgs '--tag autoopsltd/decnodetest:testing'
+                }
+            }
+            steps {
+                def server = Artifactory.server 'artifactory'
+                def uploadSpec = """{
+                    "files": [
+                        {
+                            "pattern": "./app/*.js",
+                            "target": "generic-local/decNodeTest/",
+                            "recursive": "false"
+                        }
+                    ]
+                }"""
+                server.upload(uploadSpec)
+                def buildInfo1 = server.upload uploadSpec
+                server.publishBuildInfo buildInfo1
+            }
+            post {
+                success {
+                    echo 'Artifactory upload worked!'
+                }
+                failure {
+                  echo 'Artifactory upload failed..'
                 }
             }
         }
