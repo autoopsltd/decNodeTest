@@ -71,7 +71,7 @@ pipeline {
                 }
             }
         }
-        stage('Upload Artefacts') {
+        stage('Parallel Upload Artefacts') {
             when {
                 branch 'master'
             }
@@ -125,6 +125,11 @@ pipeline {
                 failure {
                   echo 'Artefact uploading failed..'
                 }
+            }
+        }
+        stage('Ansible Task') {
+            steps {
+                    sh 'ansible-playbook -i /root/ansible/inventory ./playbook.yml'
             }
         }
         stage('Docker Tag/Push') {

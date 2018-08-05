@@ -1,0 +1,7 @@
+---
+- name: test ansible from jenkins
+  remote_user: jenkins
+  hosts: testing
+  tasks:
+    - name: echo a message
+      debug: msg="Ansible worked!" 
