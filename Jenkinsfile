@@ -66,22 +66,22 @@ pipeline {
         success {
             echo 'Pipeline job ${env.JOB_NAME} completed successfully with no errors.'
             mail to: 'autoopsltd@outlook.com',
-                 from: 'jenkins_admin@jenkins.com'
-                 subject: 'Pipeline Successful : ${env.JOB_NAME}'
+                 from: 'jenkins_admin@jenkins.com',
+                 subject: 'Pipeline Successful : ${env.JOB_NAME}',
                  body: 'Pipeline job ${env.JOB_NAME} from branch ${env.BRANCH_NAME} completed successfully.  For further details visit ${env.BUILD_URL}.'
         }
         failure {
             echo 'Pipeline job ${env.JOB_NAME} failed.'
             mail to: 'autoopsltd@outlook.com',
-                 from: 'jenkins_admin@jenkins.com'
-                 subject: 'Pipeline Failure : ${env.JOB_NAME}'
+                 from: 'jenkins_admin@jenkins.com',
+                 subject: 'Pipeline Failure : ${env.JOB_NAME}',
                  body: 'Pipeline job ${env.JOB_NAME} from branch ${env.BRANCH_NAME} failed.  For further details visit ${env.BUILD_URL}.'
         }
         unstable {
             echo 'Pipeline job ${env.JOB_NAME} completed but was declared unstable.'
             mail to: 'autoopsltd@outlook.com',
-                 from: 'jenkins_admin@jenkins.com'
-                 subject: 'Pipeline Unstable : ${env.JOB_NAME}'
+                 from: 'jenkins_admin@jenkins.com',
+                 subject: 'Pipeline Unstable : ${env.JOB_NAME}',
                  body: 'Pipeline job ${env.JOB_NAME} from branch ${env.BRANCH_NAME} completed but was declared unstable.  For further details visit ${env.BUILD_URL}.'
         }
     }
