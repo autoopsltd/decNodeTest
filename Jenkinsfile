@@ -133,7 +133,7 @@ pipeline {
             steps {
                     // ansible -m shell -a "ls /root" localhost
                     sh '/usr/bin/ansible-playbook -i /root/ansible/inventory ./playbook.yml --extra-vars "workspace=/var"'
-                    sh 'ls -l ${env.WORKSPACE}'
+                    sh 'ls -l ${WORKSPACE}'
             }
         }
         stage('Docker Tag/Push') {
