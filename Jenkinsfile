@@ -10,6 +10,14 @@ pipeline {
         sonarScannerHome = tool name: 'sonarScanner'
     }
     stages {
+        stage('Ansible Task') {
+            agent any
+            steps {
+                    sh 'hostname'
+                    sh 'ls -l /usr/bin/ansible-playbook'
+                    sh '/usr/bin/ansible-playbook -i /root/ansible/inventory ./playbook.yml'
+            }
+        }
         stage('NodeJS Build') {
             agent {
                 dockerfile {
@@ -125,14 +133,6 @@ pipeline {
                 failure {
                   echo 'Artefact uploading failed..'
                 }
-            }
-        }
-        stage('Ansible Task') {
-            agent any
-            steps {
-                    sh 'hostname'
-                    sh 'ls -l /usr/bin/ansible-playbook'
-                    sh '/usr/bin/ansible-playbook -i /root/ansible/inventory ./playbook.yml'
             }
         }
         stage('Docker Tag/Push') {
