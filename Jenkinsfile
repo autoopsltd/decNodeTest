@@ -1,7 +1,10 @@
 pipeline {
     agent any
+    triggers {
+        pollSCM('H/30 * * * *')
+    }
     stages {
-        stage('NodeJS build') {
+        stage('NodeJS Build') {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
