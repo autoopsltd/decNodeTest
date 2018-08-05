@@ -72,9 +72,17 @@ pipeline {
             }
         }
         stage('Upload to Nexus') {
-            agent any
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    reuseNode true
+                    additionalBuildArgs '--tag autoopsltd/decnodetest:testing'
+                }
+            }
             steps {
+                sh 'npm --version'
                 sh './setup_nexus_repo.sh'
+                sh 'npm --version'
                 sh 'npm publish --registry http://192.168.1.15:8082/repository/npm-internal/'
                 sh 'rm -f .npmrc'
             }
