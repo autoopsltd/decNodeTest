@@ -6,9 +6,6 @@ pipeline {
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
     }
-    environment {
-        //sonarScannerHome = tool name: 'sonarScanner'
-    }
     stages {
         stage('NodeJS Build') {
             agent {
