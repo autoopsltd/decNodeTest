@@ -60,10 +60,10 @@ pipeline {
             }
             steps {
                 withSonarQubeEnv('sonarqube') {
-                            sonarqubeScannerHome = tool name: 'sonarqube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-                            withCredentials([string(credentialsId: 'sonar', variable: 'sonarLogin')]) {
-                             sh "${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://192.168.1.15:9001 -Dsonar.login=${sonarLogin} -Dsonar.projectName=decNodeTest -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=NA -Dsonar.sources=. -Dsonar.language=js"
-                            }
+                    //sonarqubeScannerHome = tool name: 'sonarqube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+                    withCredentials([string(credentialsId: 'sonar', variable: 'sonarLogin')]) {
+                         sh "/var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonarqube/bin/sonar-scanner -e -Dsonar.host.url=http://192.168.1.15:9001 -Dsonar.login=${sonarLogin} -Dsonar.projectName=decNodeTest -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=NA -Dsonar.sources=. -Dsonar.language=js"
+                    }
                 }
             }
             post {
