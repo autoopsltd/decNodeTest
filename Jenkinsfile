@@ -20,7 +20,7 @@ pipeline {
             }
             steps {
                 sh 'npm install'
-                sh 'npm install --save-dev jenkins-mocha nyc'
+                sh 'npm install --save-dev jenkins-mocha nyc gulp gulp-uglify'
             }
             post {
                 success {
@@ -28,6 +28,25 @@ pipeline {
                 }
                 failure {
                     echo 'Npm install failed..'
+                }
+            }
+        }
+        stage('Gulp Tasks') {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh 'node_modules/.bin/gulp scripts'
+            }
+            post {
+                success {
+                    echo 'Gulp task completed!'
+                }
+                failure {
+                    echo 'Gulp task failed..'
                 }
             }
         }
@@ -139,10 +158,7 @@ pipeline {
         stage('Ansible Launch') {
             agent any
             steps {
-                    // ansible -m shell -a "ls /root" localhost
-                    //sh '/usr/bin/ansible-playbook -i /root/ansible/inventory ./playbook.yml'
-                    //sh 'ls -l ${WORKSPACE}'
-                    sh '/usr/bin/ansible-playbook -i /root/ansible/inventory ./playbook.yml'
+                sh '/usr/bin/ansible-playbook -i /root/ansible/inventory ./playbook.yml'
             }
         }
     }
