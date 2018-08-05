@@ -130,7 +130,9 @@ pipeline {
         stage('Ansible Task') {
             agent any
             steps {
-                    sh 'ansible-playbook -i /root/ansible/inventory ./playbook.yml'
+                    sh 'hostname'
+                    sh 'ls -l /usr/bin/ansible-playbook'
+                    sh '/usr/bin/ansible-playbook -i /root/ansible/inventory ./playbook.yml'
             }
         }
         stage('Docker Tag/Push') {
