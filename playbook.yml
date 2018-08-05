@@ -3,7 +3,9 @@
   remote_user: jenkins
   hosts: testing
   tasks:
-    - name: list workspace
-      shell: docker ps
+    - name: Run Docker Compose
+      shell: docker-compose up -d
+    - name: List Running Containers
+      shell: docker ps | grep -i decnodetest
       register: docker
     - debug: var=docker.stdout_lines

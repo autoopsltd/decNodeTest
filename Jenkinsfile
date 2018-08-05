@@ -128,20 +128,21 @@ pipeline {
                 }
             }
         }
-        stage('Ansible Task') {
-            agent any
-            steps {
-                    // ansible -m shell -a "ls /root" localhost
-                    sh '/usr/bin/ansible-playbook -i /root/ansible/inventory ./playbook.yml'
-                    //sh 'ls -l ${WORKSPACE}'
-            }
-        }
         stage('Docker Tag/Push') {
             steps {
                 withDockerRegistry([ credentialsId: "dockerhub", url: "http://localhost:5000"]) {
                     sh 'docker tag autoopsltd/decnodetest:testing localhost:5000/decnodetest:latest'
                     sh 'docker push localhost:5000/decnodetest:latest'
                 }
+            }
+        }
+        stage('Ansible Launch') {
+            agent any
+            steps {
+                    // ansible -m shell -a "ls /root" localhost
+                    //sh '/usr/bin/ansible-playbook -i /root/ansible/inventory ./playbook.yml'
+                    //sh 'ls -l ${WORKSPACE}'
+                    sh '/usr/bin/ansible-playbook -i /root/ansible/inventory ./playbook.yml'
             }
         }
     }
