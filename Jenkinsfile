@@ -82,25 +82,33 @@ pipeline {
             when {
                 branch 'master'
             }
-            steps {
-                sh 'npm --version'
-                sh './setup_nexus_repo.sh'
-                sh 'npm publish --registry http://192.168.1.15:8082/repository/npm-internal/'
-                sh 'rm -f .npmrc'
-                script {
-                    def server = Artifactory.server 'artifactory'
-                    def uploadSpec = """{
-                        "files": [
-                            {
-                                "pattern": "./app/*.js",
-                                "target": "generic-local/decNodeTest/",
-                                "recursive": "false"
-                            }
-                        ]
-                    }"""
-                    server.upload(uploadSpec)
-                    def buildInfo1 = server.upload uploadSpec
-                    server.publishBuildInfo buildInfo1
+            parallel {
+                stage('Upload artefact to Nexus') {
+                    steps {
+                        sh 'npm --version'
+                        sh './setup_nexus_repo.sh'
+                        sh 'npm publish --registry http://192.168.1.15:8082/repository/npm-internal/'
+                        sh 'rm -f .npmrc'
+                    }
+                }
+                stage('Upload artefact to Nexus') {
+                    steps {
+                        script {
+                            def server = Artifactory.server 'artifactory'
+                            def uploadSpec = """{
+                                "files": [
+                                    {
+                                        "pattern": "./app/*.js",
+                                        "target": "generic-local/decNodeTest/",
+                                        "recursive": "false"
+                                    }
+                                ]
+                            }"""
+                            server.upload(uploadSpec)
+                            def buildInfo1 = server.upload uploadSpec
+                            server.publishBuildInfo buildInfo1
+                        }
+                    }
                 }
             }
             post {
