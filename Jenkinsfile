@@ -54,13 +54,7 @@ pipeline {
             }
         }
         stage('Sonar Analyze/Quality Gate') {
-            agent {
-                dockerfile {
-                    filename 'Dockerfile'
-                    reuseNode true
-                    additionalBuildArgs '--tag autoopsltd/decnodetest:testing'
-                }
-            }
+            agent any
             steps {
                 withSonarQubeEnv('sonarqube') {
                     //sonarqubeScannerHome = tool name: 'sonarqube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
