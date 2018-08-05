@@ -71,7 +71,7 @@ pipeline {
                 }
             }
         }
-        stage('Upload to Nexus') {
+        stage('Upload Artefacts') {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
@@ -84,25 +84,6 @@ pipeline {
                 sh './setup_nexus_repo.sh'
                 sh 'npm publish --registry http://192.168.1.15:8082/repository/npm-internal/'
                 sh 'rm -f .npmrc'
-            }
-            post {
-                success {
-                    echo 'Nexus upload worked!'
-                }
-                failure {
-                  echo 'Nexus upload failed..'
-                }
-            }
-        }
-        stage('Upload to Artifactory') {
-            agent {
-                dockerfile {
-                    filename 'Dockerfile'
-                    reuseNode true
-                    additionalBuildArgs '--tag autoopsltd/decnodetest:testing'
-                }
-            }
-            steps {
                 script {
                     def server = Artifactory.server 'artifactory'
                     def uploadSpec = """{
@@ -118,13 +99,12 @@ pipeline {
                     def buildInfo1 = server.upload uploadSpec
                     server.publishBuildInfo buildInfo1
                 }
-            }
             post {
                 success {
-                    echo 'Artifactory upload worked!'
+                    echo 'Artefact uploading worked!'
                 }
                 failure {
-                  echo 'Artifactory upload failed..'
+                  echo 'Artefact uploading failed..'
                 }
             }
         }
