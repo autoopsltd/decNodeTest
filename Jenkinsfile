@@ -3,6 +3,9 @@ pipeline {
     triggers {
         pollSCM('H/30 * * * *')
     }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
     stages {
         stage('NodeJS Build') {
             agent {
