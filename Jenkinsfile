@@ -72,6 +72,7 @@ pipeline {
             }
         }
         stage('Upload to Nexus') {
+            agent any
             steps {
                 sh './setup_nexus_repo.sh'
                 sh 'npm publish --registry http://192.168.1.15:8082/repository/npm-internal/'
