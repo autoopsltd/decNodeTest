@@ -72,18 +72,18 @@ pipeline {
             }
         }
         stage('Upload Artefacts') {
-            agent {
-                dockerfile {
-                    filename 'Dockerfile'
-                    reuseNode true
-                    additionalBuildArgs '--tag autoopsltd/decnodetest:testing'
-                }
-            }
             when {
                 branch 'master'
             }
             parallel {
                 stage('Upload artefact to Nexus') {
+                    agent {
+                        dockerfile {
+                            filename 'Dockerfile'
+                            reuseNode true
+                            additionalBuildArgs '--tag autoopsltd/decnodetest:testing'
+                        }
+                    }
                     steps {
                         sh 'npm --version'
                         sh './setup_nexus_repo.sh'
@@ -92,6 +92,13 @@ pipeline {
                     }
                 }
                 stage('Upload artefact to Nexus') {
+                    agent {
+                        dockerfile {
+                            filename 'Dockerfile'
+                            reuseNode true
+                            additionalBuildArgs '--tag autoopsltd/decnodetest:testing'
+                        }
+                    }
                     steps {
                         script {
                             def server = Artifactory.server 'artifactory'
