@@ -2,6 +2,10 @@
 - name: test ansible from jenkins
   remote_user: jenkins
   hosts: testing
+  vars:
+    workspace: "{{ workspace }}"
   tasks:
-    - name: echo a message
-      debug: msg="Ansible worked!" 
+    - name: list workspace
+      shell: ls -l {{ workspace }}
+      register: ls
+    - debug: var=ls.stdout_lines

@@ -5,6 +5,7 @@ pipeline {
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 1, unit: 'HOURS')
     }
     environment {
         sonarScannerHome = tool name: 'sonarScanner'
@@ -130,9 +131,8 @@ pipeline {
         stage('Ansible Task') {
             agent any
             steps {
-                    sh 'hostname'
-                    sh 'ls -l /usr/bin/ansible-playbook'
-                    sh '/usr/bin/ansible-playbook -i /root/ansible/inventory ./playbook.yml'
+                    // ansible -m shell -a "ls /root" localhost
+                    sh '/usr/bin/ansible-playbook -i /root/ansible/inventory ./playbook.yml --extra-vars "workspace=${env.WORKSPACE}"'
             }
         }
         stage('Docker Tag/Push') {
